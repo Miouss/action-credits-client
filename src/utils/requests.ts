@@ -23,7 +23,7 @@ export async function requestActionsQueue(
   username: User,
   actionName: ActionName
 ) {
-  await fetchServer(API_ACTIONS_QUEUE, {
+  return await fetchServer(API_ACTIONS_QUEUE, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

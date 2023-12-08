@@ -22,6 +22,7 @@ export function useActionsManager(
   );
 
   useExecutionInterval(actionsQueue, setExecuteAction);
+
   return actions;
 }
 
@@ -56,18 +57,11 @@ function useExecutionHandler(
 
     const handleExecuteAction = async () => {
       try {
-        await requestActionsQueue(DEFAULT_USER, actionsQueue[0]);
+        const res = await requestActionsQueue(DEFAULT_USER, actionsQueue[0]);
+        const { actions } : UserActions = await res.json();
 
         setActionsQueue((actionsQueue) => actionsQueue.slice(1));
-        setActions((actions) =>
-          actions?.map((action) =>
-            action.name === actionsQueue[0]
-              ? Object.assign(action, {
-                  credits: action.credits - 1,
-                })
-              : action
-          )
-        );
+        setActions(actions);
       } catch (err) {
         alert(err);
       } finally {

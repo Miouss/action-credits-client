@@ -2,7 +2,11 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, UserActions } from "../types";
 import { ActionName } from "../enums";
 import { DEFAULT_USER } from "../config";
-import { requestActions, requestActionsQueue } from "../utils/requests";
+import {
+  requestActions,
+  requestActionsQueue,
+  requestToken,
+} from "../utils/requests";
 
 export function useActionsManager(
   actionsQueue: ActionName[],
@@ -32,7 +36,11 @@ function useActionsAvailable(
   useEffect(() => {
     try {
       const getActions = async () => {
-        const res = await requestActions(DEFAULT_USER);
+        const res2 = await requestToken(DEFAULT_USER);
+        const { token } = await res2.json();
+        localStorage.setItem("token", token);
+
+        const res = await requestActions(token);
         const data: UserActions = await res.json();
         setActions(data.actions);
       };
@@ -57,8 +65,11 @@ function useExecutionHandler(
 
     const handleExecuteAction = async () => {
       try {
-        const res = await requestActionsQueue(DEFAULT_USER, actionsQueue[0]);
-        const { actions } : UserActions = await res.json();
+        const res = await requestActionsQueue(
+          localStorage.getItem("token") ?? "",
+          actionsQueue[0]
+        );
+        const { actions }: UserActions = await res.json();
 
         setActionsQueue((actionsQueue) => actionsQueue.slice(1));
         setActions(actions);

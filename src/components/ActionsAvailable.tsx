@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
-import { Action, ActionName } from "../types";
+import { Action } from "../types";
+import { ActionName } from "../enums";
 import { useActionsManager } from "../hooks/useActionsManager";
 
 interface Props {

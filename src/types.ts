@@ -1,12 +1,11 @@
-export enum ActionName {
-  INVITE = "Invite",
-  SEND_MESSAGE = "Send Message",
-  VISIT = "Visit",
-}
+import { ActionName, User } from "./enums";
 
 export interface Action {
   name: ActionName;
   credits: number;
 }
 
-export type queueExecutionState = "pending" | "execute" | "failed"; 
+export interface UserActions {
+  username: User;
+  actions: Action[];
+}

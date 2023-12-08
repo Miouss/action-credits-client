@@ -1,4 +1,4 @@
-import { ActionName } from "../types";
+import { ActionName } from "../enums";
 
 interface Props {
   actionsQueue?: ActionName[];

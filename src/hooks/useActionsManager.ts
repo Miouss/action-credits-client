@@ -1,5 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, ActionName } from "../types";
+import { Action, UserActions } from "../types";
+import { ActionName } from "../enums";
+import { DEFAULT_USER } from "../config";
 
 const API_ACTIONS = "http://localhost:3001/api/actions";
 const API_ACTIONS_QUEUE = API_ACTIONS + "/queue";
@@ -16,7 +18,6 @@ export function useActionsManager(
   useExecutionHandler(
     actionsQueue,
     setActionsQueue,
-    actions,
     setActions,
     executeAction,
     setExecuteAction
@@ -33,13 +34,18 @@ function useActionsAvailable(
   useEffect(() => {
     try {
       const getActions = async () => {
-        const res = await fetch(API_ACTIONS);
+        const res = await fetch(API_ACTIONS, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: DEFAULT_USER }),
+        });
 
         if (!res.ok) throw await res.text();
 
-        const data = await res.json();
-        console.log(data);
-        setActions(data);
+        const data: UserActions = await res.json();
+        setActions(data.actions);
       };
 
       getActions();
@@ -52,7 +58,6 @@ function useActionsAvailable(
 function useExecutionHandler(
   actionsQueue: ActionName[],
   setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,
-  actions: Action[] | undefined,
   setActions: Dispatch<SetStateAction<Action[] | undefined>>,
   executeAction: boolean,
   setExecuteAction: Dispatch<SetStateAction<boolean>>
@@ -68,9 +73,8 @@ function useExecutionHandler(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            action: actionsQueue[0],
-            credits: actions?.find((action) => action.name === actionsQueue[0])
-              ?.credits,
+            username: DEFAULT_USER,
+            actionName: actionsQueue[0],
           }),
         });
 

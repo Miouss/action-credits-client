@@ -9,9 +9,13 @@ interface Props {
 }
 
 export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
-  const actions = useActionsManager(actionsQueue, setActionsQueue);
+  const { actions, hasRefreshedCredits } = useActionsManager(
+    actionsQueue,
+    setActionsQueue
+  );
   const hasActions = actions && actions.length > 0;
-  if (!hasActions) return null;
+  if (!hasActions)
+    return <h1>Impossible de charger les actions depuis le serveur</h1>;
 
   return (
     <section>
@@ -27,6 +31,7 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
             />
           ))}
       </ul>
+      {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
     </section>
   );
 }
@@ -50,7 +55,8 @@ function ActionItem({ name, credits, setActionsQueue }: AddActionBtnProps) {
     >
       <span style={{ flex: "1" }}>{name}</span>
       <span>
-        {credits} <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
+        {credits}{" "}
+        <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
       </span>
       <button onClick={handleClick}>Ajouter</button>
     </li>

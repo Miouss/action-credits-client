@@ -12,26 +12,35 @@ export function useActionsManager(
   actionsQueue: ActionName[],
   setActionsQueue: Dispatch<SetStateAction<ActionName[]>>
 ) {
+  const [id, setId] = useState<string>("");
   const [actions, setActions] = useState<Action[]>();
   const [executeAction, setExecuteAction] = useState(false);
+  const [hasRefreshedCredits, setHasRefreshedCredits] = useState(false);
 
-  useActionsAvailable(setActions);
+  useActionsAvailable(setActions, setId);
 
   useExecutionHandler(
     actionsQueue,
     setActionsQueue,
-    setActions,
     executeAction,
-    setExecuteAction
+    setExecuteAction,
+    setHasRefreshedCredits,
+    id,
+    setId,
+    setActions
   );
 
   useExecutionInterval(actionsQueue, setExecuteAction);
 
-  return actions;
+  return {
+    hasRefreshedCredits,
+    actions,
+  };
 }
 
 function useActionsAvailable(
-  setActions: Dispatch<SetStateAction<Action[] | undefined>>
+  setActions: Dispatch<SetStateAction<Action[] | undefined>>,
+  setId: Dispatch<SetStateAction<string>>
 ) {
   useEffect(() => {
     try {
@@ -43,6 +52,7 @@ function useActionsAvailable(
         const res = await requestActions(token);
         const data: UserActions = await res.json();
         setActions(data.actions);
+        setId(data.id);
       };
 
       getActions();
@@ -56,9 +66,12 @@ function useActionsAvailable(
 function useExecutionHandler(
   actionsQueue: ActionName[],
   setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,
-  setActions: Dispatch<SetStateAction<Action[] | undefined>>,
   executeAction: boolean,
-  setExecuteAction: Dispatch<SetStateAction<boolean>>
+  setExecuteAction: Dispatch<SetStateAction<boolean>>,
+  setHasRefreshedCredits: Dispatch<SetStateAction<boolean>>,
+  id: string,
+  setId: Dispatch<SetStateAction<string>>,
+  setActions: Dispatch<SetStateAction<Action[] | undefined>>
 ) {
   useEffect(() => {
     if (!executeAction) return;
@@ -69,10 +82,19 @@ function useExecutionHandler(
           localStorage.getItem("token") ?? "",
           actionsQueue[0]
         );
-        const { actions }: UserActions = await res.json();
+        const { actions: newActions, id: newId }: UserActions =
+          await res.json();
 
         setActionsQueue((actionsQueue) => actionsQueue.slice(1));
-        setActions(actions);
+        setActions(newActions);
+
+        if (newId !== id) {
+          setId(newId);
+          setHasRefreshedCredits(true);
+          setTimeout(() => {
+            setHasRefreshedCredits(false);
+          }, 7000);
+        }
       } catch (err) {
         alert(err);
       } finally {

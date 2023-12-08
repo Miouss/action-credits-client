@@ -13,6 +13,7 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
     actionsQueue,
     setActionsQueue
   );
+
   const hasActions = actions && actions.length > 0;
   if (!hasActions)
     return <h1>Impossible de charger les actions depuis le serveur</h1>;
@@ -36,11 +37,11 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
   );
 }
 
-interface AddActionBtnProps extends Action {
+interface ActionItemProps extends Action {
   setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
 }
 
-function ActionItem({ name, credits, setActionsQueue }: AddActionBtnProps) {
+function ActionItem({ name, credits, setActionsQueue }: ActionItemProps) {
   const handleClick = () => {
     setActionsQueue((actionsQueue) => [...actionsQueue, name]);
   };

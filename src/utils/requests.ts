@@ -19,8 +19,6 @@ export async function requestToken(username: User) {
   });
 }
 
-
-
 export async function requestActions(token: string) {
   return await fetchServer(API_ACTIONS, {
     method: "POST",

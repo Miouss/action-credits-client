@@ -9,3 +9,9 @@ export enum User {
   SAMIR = "Samir",
   FABIEN = "Fabien",
 }
+
+export enum API_ENDPOINTS {
+  AUTH = "/auth",
+  ACTIONS = "/actions",
+  ACTIONS_QUEUE = "/actions/queue",
+}

@@ -2,9 +2,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, UserActions } from "../types";
 import { ActionName } from "../enums";
 import { DEFAULT_USER } from "../config";
-
-const API_ACTIONS = "http://localhost:3001/api/actions";
-const API_ACTIONS_QUEUE = API_ACTIONS + "/queue";
+import { requestActions, requestActionsQueue } from "../utils/requests";
 
 export function useActionsManager(
   actionsQueue: ActionName[],
@@ -24,7 +22,6 @@ export function useActionsManager(
   );
 
   useExecutionInterval(actionsQueue, setExecuteAction);
-
   return actions;
 }
 
@@ -34,16 +31,7 @@ function useActionsAvailable(
   useEffect(() => {
     try {
       const getActions = async () => {
-        const res = await fetch(API_ACTIONS, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: DEFAULT_USER }),
-        });
-
-        if (!res.ok) throw await res.text();
-
+        const res = await requestActions(DEFAULT_USER);
         const data: UserActions = await res.json();
         setActions(data.actions);
       };
@@ -52,6 +40,7 @@ function useActionsAvailable(
     } catch (err) {
       alert(err);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
 
@@ -67,18 +56,7 @@ function useExecutionHandler(
 
     const handleExecuteAction = async () => {
       try {
-        const res = await fetch(API_ACTIONS_QUEUE, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: DEFAULT_USER,
-            actionName: actionsQueue[0],
-          }),
-        });
-
-        if (!res.ok) throw await res.text();
+        await requestActionsQueue(DEFAULT_USER, actionsQueue[0]);
 
         setActionsQueue((actionsQueue) => actionsQueue.slice(1));
         setActions((actions) =>
@@ -98,6 +76,7 @@ function useExecutionHandler(
     };
 
     handleExecuteAction();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [executeAction]);
 }
 
@@ -113,5 +92,6 @@ function useExecutionInterval(
     }, 1000);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionsQueue]);
 }

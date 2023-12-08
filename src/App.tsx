@@ -7,21 +7,14 @@ function App() {
   const [actionsQueue, setActionsQueue] = useState<ActionName[]>([]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <>
       <ActionsAvailable
         actionsQueue={actionsQueue}
         setActionsQueue={setActionsQueue}
       />
 
       <ActionsQueue actionsQueue={actionsQueue} />
-    </div>
+    </>
   );
 }
 

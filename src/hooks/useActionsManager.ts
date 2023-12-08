@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, UserActions } from "../types";
 import { ActionName } from "../enums";
-import { DEFAULT_USER } from "../config";
+import { DEFAULT_USER, EXECUTION_INTERVAL } from "../config";
 import {
   requestActions,
   requestActionsQueue,
@@ -94,7 +94,7 @@ function useExecutionInterval(
 
     const timer = setTimeout(() => {
       setExecuteAction(true);
-    }, 1000);
+    }, EXECUTION_INTERVAL);
 
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps

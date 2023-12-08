@@ -14,15 +14,9 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
   if (!hasActions) return null;
 
   return (
-    <>
+    <section>
       <h3>Actions Possible</h3>
-      <ul
-        style={{
-          width: "max-content",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <ul>
         {hasActions &&
           actions.map(({ name, credits }) => (
             <ActionItem
@@ -33,7 +27,7 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
             />
           ))}
       </ul>
-    </>
+    </section>
   );
 }
 
@@ -49,15 +43,15 @@ function ActionItem({ name, credits, setActionsQueue }: AddActionBtnProps) {
   return (
     <li
       style={{
-        flex: "1",
         display: "flex",
-        justifyContent: "space-between",
         alignItems: "center",
         gap: "10px",
       }}
     >
       <span style={{ flex: "1" }}>{name}</span>
-      <span>{credits}</span>
+      <span>
+        {credits} <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
+      </span>
       <button onClick={handleClick}>Ajouter</button>
     </li>
   );

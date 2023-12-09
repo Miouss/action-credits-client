@@ -1,9 +1,11 @@
 import { Dispatch, useState } from "react";
 import { Action } from "../types/types";
 import { ActionName } from "../types/enums";
-import { useActionsManager } from "../hooks/useActionsManager";
-import { useAddActionToQueue } from "../hooks/useAddActionToQueue";
-import { useQuotaAlert } from "../hooks/useQuotaAlert";
+import {
+  useActionsManager,
+  useAddActionToQueue,
+  useQuotaAlert,
+} from "../hooks";
 
 interface Props {
   setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
@@ -47,7 +49,12 @@ interface ActionItemProps extends Action {
   setNewAction: Dispatch<React.SetStateAction<ActionName | undefined>>;
 }
 
-function ActionItem({ name, credits, newAction, setNewAction }: ActionItemProps) {
+function ActionItem({
+  name,
+  credits,
+  newAction,
+  setNewAction,
+}: ActionItemProps) {
   const handleClick = () => {
     setNewAction(name);
   };
@@ -64,7 +71,9 @@ function ActionItem({ name, credits, newAction, setNewAction }: ActionItemProps)
         {credits}{" "}
         <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
       </span>
-      <button onClick={handleClick} disabled={newAction !== undefined}>Ajouter</button>
+      <button onClick={handleClick} disabled={newAction !== undefined}>
+        Ajouter
+      </button>
     </li>
   );
 }

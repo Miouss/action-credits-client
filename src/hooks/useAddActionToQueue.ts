@@ -11,10 +11,7 @@ export function useAddActionToQueue(
 
     const handleAddActionToQueue = async () => {
       try {
-        await requestAddActionToQueue(
-          localStorage.getItem("token") ?? "",
-          newAction
-        );
+        await requestAddActionToQueue(newAction);
 
         setNewAction(undefined);
       } catch (err) {

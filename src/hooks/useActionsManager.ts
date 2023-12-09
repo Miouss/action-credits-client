@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, UserActions } from "../types";
-import { DEFAULT_USER, EXECUTION_INTERVAL } from "../config";
-import { requestUserActions, requestToken } from "../utils/requests";
+import { EXECUTION_INTERVAL } from "../config";
+import { requestUserActions } from "../utils/requests";
 import { ActionName } from "../enums";
 
 export function useActionsManager(
@@ -24,12 +24,8 @@ function useUpToDateUserActions(
     const getUserActions = async () => {
       try {
         const getActions = async () => {
-          const res = await requestToken(DEFAULT_USER);
-          const { token } = await res.json();
-          localStorage.setItem("token", token);
-
-          const res2 = await requestUserActions(token);
-          const data: UserActions = await res2.json();
+          const res = await requestUserActions();
+          const data: UserActions = await res.json();
 
           setActions(data.actions);
           setActionsQueue(data.queue);
@@ -43,7 +39,7 @@ function useUpToDateUserActions(
     };
 
     getUserActions();
-    
+
     setInterval(async () => {
       await getUserActions();
     }, EXECUTION_INTERVAL);

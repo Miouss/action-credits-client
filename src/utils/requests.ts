@@ -1,11 +1,10 @@
 import { API_AUTH, API_ACTIONS, API_ACTIONS_QUEUE } from "../config";
-import { User, ActionName } from "../enums";
+import { ActionName, User } from "../enums";
 
 async function fetchServer(url: RequestInfo | URL, options?: RequestInit) {
   const res = await fetch(url, options);
 
   if (!res.ok) throw await res.text();
-
   return res;
 }
 
@@ -19,25 +18,36 @@ export async function requestToken(username: User) {
   });
 }
 
-export async function requestActions(token: string) {
+export async function requestUserActions(token: string) {
   return await fetchServer(API_ACTIONS, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ token }),
   });
 }
 
-export async function requestActionsQueue(
+export async function requestAddActionToQueue(
   token: string,
   actionName: ActionName
 ) {
   return await fetchServer(API_ACTIONS_QUEUE, {
-    method: "POST",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ token, actionName }),
+    body: JSON.stringify({ actionName }),
+  });
+}
+
+export async function requestQueue(token: string) {
+  return await fetchServer(API_ACTIONS_QUEUE, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
 }

@@ -8,12 +8,11 @@ function App() {
 
   return (
     <>
-      <ActionsAvailable
-        actionsQueue={actionsQueue}
-        setActionsQueue={setActionsQueue}
-      />
+      <ActionsAvailable setActionsQueue={setActionsQueue} />
 
-      <ActionsQueue actionsQueue={actionsQueue} />
+      <ActionsQueue
+        actionsQueue={actionsQueue}
+      />
     </>
   );
 }

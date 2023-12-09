@@ -1,1 +1,1 @@
-export const EXECUTION_INTERVAL = 10000; // ms
+export const EXECUTION_INTERVAL = 3000; // ms

@@ -1,18 +1,20 @@
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 import { Action } from "../types";
 import { ActionName } from "../enums";
 import { useActionsManager } from "../hooks/useActionsManager";
+import { useAddActionToQueue } from "../hooks/useAddActionToQueue";
 
 interface Props {
-  actionsQueue: ActionName[];
   setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
 }
 
-export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
-  const { actions, hasRefreshedCredits } = useActionsManager(
-    actionsQueue,
-    setActionsQueue
-  );
+export function ActionsAvailable({ setActionsQueue }: Props) {
+  const [newAction, setNewAction] = useState<ActionName>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [id, setId] = useState<string>("");
+  const actions = useActionsManager(setActionsQueue, setId);
+
+  useAddActionToQueue(newAction, setNewAction);
 
   const hasActions = actions && actions.length > 0;
   if (!hasActions)
@@ -28,24 +30,23 @@ export function ActionsAvailable({ actionsQueue, setActionsQueue }: Props) {
               key={name}
               name={name}
               credits={credits}
-              setActionsQueue={setActionsQueue}
+              setNewAction={setNewAction}
             />
           ))}
       </ul>
-      {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
+      {/*       {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>} */}
     </section>
   );
 }
 
 interface ActionItemProps extends Action {
-  setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
+  setNewAction: Dispatch<React.SetStateAction<ActionName | undefined>>;
 }
 
-function ActionItem({ name, credits, setActionsQueue }: ActionItemProps) {
+function ActionItem({ name, credits, setNewAction }: ActionItemProps) {
   const handleClick = () => {
-    setActionsQueue((actionsQueue) => [...actionsQueue, name]);
+    setNewAction(name);
   };
-
   return (
     <li
       style={{

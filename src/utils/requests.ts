@@ -1,5 +1,5 @@
 import { API_ACTIONS, API_ACTIONS_QUEUE } from "../config";
-import { ActionName } from "../enums";
+import { ActionName } from "../types/enums";
 
 export function RequestFactory() {
   return {

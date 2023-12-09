@@ -1,6 +1,6 @@
 import { Dispatch, useState } from "react";
-import { Action } from "../types";
-import { ActionName } from "../enums";
+import { Action } from "../types/types";
+import { ActionName } from "../types/enums";
 import { useActionsManager } from "../hooks/useActionsManager";
 import { useAddActionToQueue } from "../hooks/useAddActionToQueue";
 import { useQuotaAlert } from "../hooks/useQuotaAlert";

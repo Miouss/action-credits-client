@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { RequestFactory } from "../utils/requests";
-import { ActionName } from "../enums";
+import { ActionName } from "../types/enums";
 
 export function useAddActionToQueue(
   newAction: ActionName | undefined,

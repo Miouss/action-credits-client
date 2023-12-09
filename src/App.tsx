@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ActionName } from "./enums";
+import { ActionName } from "./types/enums";
 import { ActionsAvailable } from "./components/ActionsAvailable";
 import { ActionsQueue } from "./components/ActionsQueue";
 

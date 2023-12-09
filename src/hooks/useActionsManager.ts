@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, UserActionsResponse } from "../types";
+import { Action, UserActionsResponse } from "../types/types";
 import { RequestFactory } from "../utils/requests";
-import { ActionName } from "../enums";
+import { ActionName } from "../types/enums";
 
 export function useActionsManager(
   setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,

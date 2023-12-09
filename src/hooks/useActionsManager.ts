@@ -29,9 +29,8 @@ function useUpToDateUserActions(
         setActions(userActions.actions);
         setActionsQueue(userActions.queue);
         setId(userActions.id);
-
-        setInterval(async () => {
-          await getUserActions();
+        setTimeout(() => {
+          getUserActions();
         }, executionInterval);
       } catch (err) {
         alert(err);
@@ -39,7 +38,5 @@ function useUpToDateUserActions(
     };
 
     getUserActions();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

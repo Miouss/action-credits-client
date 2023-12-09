@@ -6,7 +6,6 @@ export function useQuotaAlert(id: string) {
 
   useEffect(() => {
     if (!id) return;
-
     setHasRefreshedCredits(true);
     setTimeout(() => {
       setHasRefreshedCredits(false);

@@ -12,8 +12,6 @@ export function useAddActionToQueue(
     const handleAddActionToQueue = async () => {
       try {
         await request().queue().add(newAction);
-
-        setNewAction(undefined);
       } catch (err) {
         alert(err);
       } finally {

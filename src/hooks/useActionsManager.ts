@@ -32,7 +32,7 @@ function useUpToDateUserActions(
           setId(data.id);
         };
 
-        getActions();
+        await getActions();
       } catch (err) {
         alert(err);
       }

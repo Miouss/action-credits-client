@@ -3,6 +3,7 @@ import { Action } from "../types";
 import { ActionName } from "../enums";
 import { useActionsManager } from "../hooks/useActionsManager";
 import { useAddActionToQueue } from "../hooks/useAddActionToQueue";
+import { useQuotaAlert } from "../hooks/useQuotaAlert";
 
 interface Props {
   setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
@@ -10,9 +11,10 @@ interface Props {
 
 export function ActionsAvailable({ setActionsQueue }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [id, setId] = useState<string>("");
+
   const actions = useActionsManager(setActionsQueue, setId);
+  const hasRefreshedCredits = useQuotaAlert(id);
 
   useAddActionToQueue(newAction, setNewAction);
 
@@ -34,7 +36,7 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
             />
           ))}
       </ul>
-      {/*       {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>} */}
+      {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
     </section>
   );
 }

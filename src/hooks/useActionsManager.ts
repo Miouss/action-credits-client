@@ -31,7 +31,7 @@ function useUpToDateUserActions(
         setId(userActions.id);
 
         setInterval(async () => {
-          return await getUserActions();
+          await getUserActions();
         }, executionInterval);
       } catch (err) {
         alert(err);

@@ -1,15 +1,15 @@
 import { API_ACTIONS, API_ACTIONS_QUEUE } from "../config";
 import { ActionName } from "../enums";
 
-export function request() {
+export function RequestFactory() {
   return {
-    userActions: () => ({
+    userActions: {
       get: async () => await getUserActions(),
-    }),
-    queue: () => ({
+    },
+    queue: {
       get: () => getQueue(),
       add: async (actionName: ActionName) => await addActionToQueue(actionName),
-    }),
+    },
   };
 }
 

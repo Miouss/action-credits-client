@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { request } from "../utils/requests";
+import { RequestFactory } from "../utils/requests";
 import { ActionName } from "../enums";
 
 export function useAddActionToQueue(
@@ -11,7 +11,7 @@ export function useAddActionToQueue(
 
     const handleAddActionToQueue = async () => {
       try {
-        await request().queue().add(newAction);
+        await RequestFactory().queue.add(newAction);
       } catch (err) {
         alert(err);
       } finally {

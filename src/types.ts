@@ -10,3 +10,12 @@ export interface UserActions {
   queue: ActionName[];
   id: string;
 }
+
+export interface ExecutionInterval {
+  executionInvertal: number;
+}
+
+export interface UserActionsResponse  {
+  userActions: UserActions;
+  executionInterval: number;
+}

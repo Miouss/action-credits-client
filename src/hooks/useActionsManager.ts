@@ -1,6 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, UserActions } from "../types";
-import { EXECUTION_INTERVAL } from "../config";
+import { Action, UserActionsResponse } from "../types";
 import { request } from "../utils/requests";
 import { ActionName } from "../enums";
 
@@ -24,11 +23,16 @@ function useUpToDateUserActions(
     const getUserActions = async () => {
       try {
         const res = await request().userActions().get();
-        const data: UserActions = await res.json();
+        const { userActions, executionInterval }: UserActionsResponse =
+          await res.json();
 
-        setActions(data.actions);
-        setActionsQueue(data.queue);
-        setId(data.id);
+        setActions(userActions.actions);
+        setActionsQueue(userActions.queue);
+        setId(userActions.id);
+
+        setInterval(async () => {
+          return await getUserActions();
+        }, executionInterval);
       } catch (err) {
         alert(err);
       }
@@ -36,9 +40,6 @@ function useUpToDateUserActions(
 
     getUserActions();
 
-    setInterval(async () => {
-      await getUserActions();
-    }, EXECUTION_INTERVAL);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

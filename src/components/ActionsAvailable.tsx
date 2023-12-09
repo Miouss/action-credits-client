@@ -32,6 +32,7 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
               key={name}
               name={name}
               credits={credits}
+              newAction={newAction}
               setNewAction={setNewAction}
             />
           ))}
@@ -42,10 +43,11 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
 }
 
 interface ActionItemProps extends Action {
+  newAction: ActionName | undefined;
   setNewAction: Dispatch<React.SetStateAction<ActionName | undefined>>;
 }
 
-function ActionItem({ name, credits, setNewAction }: ActionItemProps) {
+function ActionItem({ name, credits, newAction, setNewAction }: ActionItemProps) {
   const handleClick = () => {
     setNewAction(name);
   };
@@ -62,7 +64,7 @@ function ActionItem({ name, credits, setNewAction }: ActionItemProps) {
         {credits}{" "}
         <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
       </span>
-      <button onClick={handleClick}>Ajouter</button>
+      <button onClick={handleClick} disabled={newAction !== undefined}>Ajouter</button>
     </li>
   );
 }

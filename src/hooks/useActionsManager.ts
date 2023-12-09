@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, UserActions } from "../types";
 import { EXECUTION_INTERVAL } from "../config";
-import { requestUserActions } from "../utils/requests";
+import { request } from "../utils/requests";
 import { ActionName } from "../enums";
 
 export function useActionsManager(
@@ -24,7 +24,7 @@ function useUpToDateUserActions(
     const getUserActions = async () => {
       try {
         const getActions = async () => {
-          const res = await requestUserActions();
+          const res = await request().userActions().get();
           const data: UserActions = await res.json();
 
           setActions(data.actions);

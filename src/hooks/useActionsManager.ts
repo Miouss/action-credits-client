@@ -23,16 +23,12 @@ function useUpToDateUserActions(
   useEffect(() => {
     const getUserActions = async () => {
       try {
-        const getActions = async () => {
-          const res = await request().userActions().get();
-          const data: UserActions = await res.json();
+        const res = await request().userActions().get();
+        const data: UserActions = await res.json();
 
-          setActions(data.actions);
-          setActionsQueue(data.queue);
-          setId(data.id);
-        };
-
-        await getActions();
+        setActions(data.actions);
+        setActionsQueue(data.queue);
+        setId(data.id);
       } catch (err) {
         alert(err);
       }

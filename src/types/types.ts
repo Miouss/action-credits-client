@@ -18,4 +18,5 @@ export interface ExecutionInterval {
 export interface UserActionsResponse  {
   userActions: UserActions;
   executionInterval: number;
+  refreshCreditsInterval: number;
 }

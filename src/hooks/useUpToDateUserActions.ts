@@ -3,32 +3,26 @@ import { Action, UserActionsResponse } from "../types/types";
 import { RequestFactory } from "../utils/requests";
 import { ActionName } from "../types/enums";
 
-export function useActionsManager(
+export function useUpToDateUserActions(
   setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,
   setId: Dispatch<SetStateAction<string>>
 ) {
   const [actions, setActions] = useState<Action[]>();
+  const [executionInterval, setExecutionInterval] = useState<number>(0);
+  const [refreshCreditsInterval, setRefreshCreditsInterval] = useState<number>(0);
 
-  useUpToDateUserActions(setActions, setActionsQueue, setId);
-
-  return actions;
-}
-
-function useUpToDateUserActions(
-  setActions: Dispatch<SetStateAction<Action[] | undefined>>,
-  setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,
-  setId: Dispatch<SetStateAction<string>>
-) {
   useEffect(() => {
     const getUserActions = async () => {
       try {
         const res = await RequestFactory().userActions.get();
-        const { userActions, executionInterval }: UserActionsResponse =
+        const { userActions, executionInterval, refreshCreditsInterval }: UserActionsResponse =
           await res.json();
 
         setActions(userActions.actions);
         setActionsQueue(userActions.queue);
         setId(userActions.id);
+        setExecutionInterval(executionInterval);
+        setRefreshCreditsInterval(refreshCreditsInterval);
         setTimeout(() => {
           getUserActions();
         }, executionInterval);
@@ -39,4 +33,6 @@ function useUpToDateUserActions(
 
     getUserActions();
   }, []);
+
+  return { actions, executionInterval, refreshCreditsInterval };
 }

@@ -2,7 +2,7 @@ import { Dispatch, useState } from "react";
 import { Action } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
-  useActionsManager,
+  useUpToDateUserActions,
   useAddActionToQueue,
   useQuotaAlert,
 } from "../hooks";
@@ -15,7 +15,8 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const actions = useActionsManager(setActionsQueue, setId);
+  const { actions, executionInterval, refreshCreditsInterval } =
+    useUpToDateUserActions(setActionsQueue, setId);
   const hasRefreshedCredits = useQuotaAlert(id);
 
   useAddActionToQueue(newAction, setNewAction);
@@ -40,6 +41,12 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
           ))}
       </ul>
       {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
+      {executionInterval && (
+        <p>Action exécuté toutes les {executionInterval / 1000}s</p>
+      )}
+      {refreshCreditsInterval && (
+        <p>Crédits actualisés toutes les {refreshCreditsInterval / 1000}s</p>
+      )}
     </section>
   );
 }

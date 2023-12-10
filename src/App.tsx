@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { ActionName } from "./types/enums";
-import { ActionsAvailable } from "./components/ActionsAvailable";
-import { ActionsQueue } from "./components/ActionsQueue";
+import { ActionsAvailable, ActionsQueue } from "./components";
+import { QueueItem } from "./types/types";
 
 function App() {
-  const [actionsQueue, setActionsQueue] = useState<ActionName[]>([]);
+  const [actionsQueue, setActionsQueue] = useState<QueueItem[]>([]);
 
   return (
     <>

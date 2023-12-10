@@ -15,3 +15,8 @@ export enum API_ENDPOINTS {
   ACTIONS = "/actions",
   ACTIONS_QUEUE = "/actions/queue",
 }
+
+export enum ActionStatus{
+  PENDING = "pending",
+  COMPLETED = "completed"
+}

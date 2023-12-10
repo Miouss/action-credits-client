@@ -1,7 +1,8 @@
-import { ActionName } from "../types/enums";
+import { ActionStatus } from "../types/enums";
+import { QueueItem } from "../types/types";
 
 interface Props {
-  actionsQueue?: ActionName[];
+  actionsQueue?: QueueItem[];
 }
 
 export function ActionsQueue({ actionsQueue }: Props) {
@@ -19,9 +20,15 @@ export function ActionsQueue({ actionsQueue }: Props) {
       <h3>Actions en attente</h3>
       <ul className="queue">
         {hasActionsQueue &&
-          actionsQueue.map((action, index) => (
+          actionsQueue.map(({ name, status }, index) => (
             <li key={index}>
-              <span>{action}</span>
+              <span
+                className={
+                  status === ActionStatus.PENDING ? "pending" : "completed"
+                }
+              >
+                {name}
+              </span>
               <svg
                 clipRule="evenodd"
                 fillRule="evenodd"

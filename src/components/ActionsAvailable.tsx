@@ -1,5 +1,5 @@
 import { Dispatch, useState } from "react";
-import { Action } from "../types/types";
+import { Action, QueueItem } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
   useUpToDateUserActions,
@@ -8,7 +8,7 @@ import {
 } from "../hooks";
 
 interface Props {
-  setActionsQueue: Dispatch<React.SetStateAction<ActionName[]>>;
+  setActionsQueue: Dispatch<React.SetStateAction<QueueItem[]>>;
 }
 
 export function ActionsAvailable({ setActionsQueue }: Props) {

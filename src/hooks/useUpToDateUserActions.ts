@@ -1,10 +1,9 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, UserActionsResponse } from "../types/types";
+import { Action, QueueItem, UserActionsResponse } from "../types/types";
 import { RequestFactory } from "../utils/requests";
-import { ActionName } from "../types/enums";
 
 export function useUpToDateUserActions(
-  setActionsQueue: Dispatch<SetStateAction<ActionName[]>>,
+  setActionsQueue: Dispatch<SetStateAction<QueueItem[]>>,
   setId: Dispatch<SetStateAction<string>>
 ) {
   const [actions, setActions] = useState<Action[]>();
@@ -23,7 +22,7 @@ export function useUpToDateUserActions(
         }: UserActionsResponse = await res.json();
 
         setActions(userActions.actions);
-        setActionsQueue(userActions.queue);
+        setActionsQueue(userActions.queue.items);
         setId(userActions.id);
         setExecutionInterval(executionInterval);
         setRefreshCreditsInterval(refreshCreditsInterval);

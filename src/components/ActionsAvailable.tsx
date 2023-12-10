@@ -45,7 +45,7 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
         <p>Action exécuté toutes les {executionInterval / 1000}s</p>
       )}
       {refreshCreditsInterval && (
-        <p>Crédits actualisés toutes les {refreshCreditsInterval / 1000}s</p>
+        <p>Quota des crédits actualisés toutes les {refreshCreditsInterval / 1000}s, si au moins 1 crédit a été utilisé</p>
       )}
     </section>
   );

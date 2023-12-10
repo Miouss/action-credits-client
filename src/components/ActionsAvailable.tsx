@@ -19,7 +19,7 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
     useUpToDateUserActions(setActionsQueue, setId);
   const hasRefreshedCredits = useQuotaAlert(id);
 
-  useAddActionToQueue(newAction, setNewAction);
+  useAddActionToQueue(newAction, setNewAction, setActionsQueue);
 
   const hasActions = actions && actions.length > 0;
   if (!hasActions)
@@ -28,25 +28,43 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
   return (
     <section>
       <h3>Actions Possible</h3>
-      <ul>
-        {hasActions &&
-          actions.map(({ name, credits }) => (
-            <ActionItem
-              key={name}
-              name={name}
-              credits={credits}
-              newAction={newAction}
-              setNewAction={setNewAction}
-            />
-          ))}
-      </ul>
-      {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
-      {executionInterval && (
-        <p>Action exécuté toutes les {executionInterval / 1000}s</p>
-      )}
-      {refreshCreditsInterval && (
-        <p>Quota des crédits actualisés toutes les {refreshCreditsInterval / 1000}s, si au moins 1 crédit a été utilisé</p>
-      )}
+      <div className="actions-config">
+        <table className="actions-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Credits restants</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hasActions &&
+              actions.map(({ name, credits }) => (
+                <ActionItem
+                  key={name}
+                  name={name}
+                  credits={credits}
+                  newAction={newAction}
+                  setNewAction={setNewAction}
+                />
+              ))}
+          </tbody>
+        </table>
+        <div>
+          {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
+          {executionInterval && (
+            <p>
+              Une action sera exécutée toutes les {executionInterval / 1000}s
+            </p>
+          )}
+          {refreshCreditsInterval && (
+            <p>
+              Quota des crédits actualisés toutes les{" "}
+              {refreshCreditsInterval / 1000}s, si au moins 1 crédit a été
+              utilisé
+            </p>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
@@ -66,21 +84,18 @@ function ActionItem({
     setNewAction(name);
   };
   return (
-    <li
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-      }}
-    >
-      <span style={{ flex: "1" }}>{name}</span>
-      <span>
-        {credits}{" "}
-        <span style={{ fontSize: "0.9rem" }}>restant{credits > 1 && "s"}</span>
-      </span>
-      <button onClick={handleClick} disabled={newAction !== undefined}>
-        Ajouter
-      </button>
-    </li>
+    <tr>
+      <td>{name}</td>
+      <td>{credits}</td>
+      <td>
+        <button
+          className="add-button"
+          onClick={handleClick}
+          disabled={newAction !== undefined}
+        >
+          Ajouter
+        </button>
+      </td>
+    </tr>
   );
 }

@@ -8,11 +8,11 @@ function App() {
 
   return (
     <>
-      <ActionsAvailable setActionsQueue={setActionsQueue} />
-
-      <ActionsQueue
-        actionsQueue={actionsQueue}
-      />
+      <header>Gestionnaire de tâches</header>
+      <main>
+        <ActionsAvailable setActionsQueue={setActionsQueue} />
+        <ActionsQueue actionsQueue={actionsQueue} />
+      </main>
     </>
   );
 }

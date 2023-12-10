@@ -1,5 +1,92 @@
 body {
+  font-family: "Sen", sans-serif;
+}
+
+header {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: rgb(168, 166, 166);
+  color: rgb(255, 255, 255);
+  font-size: xx-large;
+  height: 15vh;
+}
+
+section {
+  margin: 10px 50px;
+}
+
+.actions-table {
+  margin: auto;
+  border-spacing: 0px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  gap: 10px;
+
+  th {
+    text-align: left;
+    font-weight: 600;
+  }
+
+  tr td {
+    border-top: 1px solid gray;
+  }
+
+  td,
+  th {
+    padding: 12px;
+  }
+}
+
+.add-button {
+  font-family: inherit;
+  border-radius: 10px;
+  border: none;
+  background-color: rgb(152, 215, 247);
+  padding: 4px 8px;
+}
+
+.add-button:hover {
+  background-color: rgb(61, 151, 196);
+}
+
+.actions-config {
+  display: flex;
+  gap: 16px;
+}
+
+.queue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
+    list-style-type: none;
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    flex-direction: column;
+  
+    svg {
+      height: 35px;
+    }
+
+    span {
+      width: fit-content;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: rgb(206, 178, 249);
+    }
+  }
+
+  li:last-child {
+    border: 1px dashed black;
+    border-radius: 10px;
+    span {
+      width: fit-content;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: rgb(227, 233, 231);
+    }
+  }
 }

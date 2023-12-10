@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { RequestFactory } from "../utils/requests";
 import { ActionName } from "../types/enums";
-import { QueueItem } from "../types/types";
+import { QueueItem, UserActions } from "../types/types";
 
 export function useAddActionToQueue(
   newAction: ActionName | undefined,
@@ -13,9 +13,9 @@ export function useAddActionToQueue(
 
     const handleAddActionToQueue = async () => {
       try {
-        const response = await RequestFactory().queue.add(newAction);
-        const body = await response.json();
-        setActionsQueue(body.userActions.queue.items);
+        const response = await RequestFactory().userActions.queue.add(newAction);
+        const userActions: UserActions = await response.json();
+        setActionsQueue(userActions.queue.items);
       } catch (err) {
         alert(err);
       } finally {

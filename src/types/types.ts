@@ -24,9 +24,3 @@ export interface UserActions {
 export interface ExecutionInterval {
   executionInvertal: number;
 }
-
-export interface UserActionsResponse {
-  userActions: UserActions;
-  executionInterval: number;
-  refreshCreditsInterval: number;
-}

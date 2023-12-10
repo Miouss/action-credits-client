@@ -6,6 +6,7 @@ import {
   useAddActionToQueue,
   useQuotaAlert,
 } from "../hooks";
+import { useRefreshInterval } from "../hooks/useRefreshInterval";
 
 interface Props {
   setActionsQueue: Dispatch<React.SetStateAction<QueueItem[]>>;
@@ -15,10 +16,10 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const { actions, executionInterval, refreshCreditsInterval } =
-    useUpToDateUserActions(setActionsQueue, setId);
+  const actions = useUpToDateUserActions(setActionsQueue, setId);
   const hasRefreshedCredits = useQuotaAlert(id);
 
+  const refreshInterval = useRefreshInterval();
   useAddActionToQueue(newAction, setNewAction, setActionsQueue);
 
   const hasActions = actions && actions.length > 0;
@@ -51,15 +52,16 @@ export function ActionsAvailable({ setActionsQueue }: Props) {
         </table>
         <div>
           {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
-          {executionInterval && (
+          {refreshInterval.execution && (
             <p>
-              Une action sera exécutée toutes les {executionInterval / 1000}s
+              Une action sera exécutée toutes les{" "}
+              {refreshInterval.execution / 1000}s
             </p>
           )}
-          {refreshCreditsInterval && (
+          {refreshInterval.credits && (
             <p>
               Quota des crédits actualisés toutes les{" "}
-              {refreshCreditsInterval / 1000}s, si au moins 1 crédit a été
+              {refreshInterval.credits / 1000}s, si au moins 1 crédit a été
               utilisé
             </p>
           )}

@@ -7,7 +7,6 @@ export function RequestFactory() {
       get: async () => await getUserActions(),
     },
     queue: {
-      get: () => getQueue(),
       add: async (actionName: ActionName) => await addActionToQueue(actionName),
     },
   };
@@ -29,15 +28,6 @@ async function addActionToQueue(actionName: ActionName) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ actionName }),
-  });
-}
-
-async function getQueue() {
-  return await requestServer(API_ACTIONS_QUEUE, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 }
 

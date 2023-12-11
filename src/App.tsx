@@ -4,13 +4,20 @@ import { QueueItem } from "./types/types";
 
 function App() {
   const [actionsQueue, setActionsQueue] = useState<QueueItem[]>([]);
+  const [nbActionsLeft, setNbActionsLeft] = useState<number>(0);
 
   return (
     <>
       <header>Gestionnaire de tâches</header>
       <main>
-        <ActionsAvailable setActionsQueue={setActionsQueue} />
-        <ActionsQueue actionsQueue={actionsQueue} />
+        <ActionsAvailable
+          setActionsQueue={setActionsQueue}
+          setNbActionsLeft={setNbActionsLeft}
+        />
+        <ActionsQueue
+          actionsQueue={actionsQueue}
+          nbActionsLeft={nbActionsLeft}
+        />
       </main>
     </>
   );

@@ -11,7 +11,7 @@ export interface QueueItem {
 }
 
 export interface Queue {
-  items: QueueItem[][];
+  items: QueueItem[];
   nextActionIndex: number;
 }
 
@@ -19,6 +19,11 @@ export interface UserActions {
   actions: Action[];
   queue: Queue;
   id: string;
+}
+
+export interface UserActionsResponse {
+  userActions: UserActions;
+  nbActionsLeft: number;
 }
 
 export interface ExecutionInterval {

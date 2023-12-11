@@ -10,17 +10,23 @@ import { useRefreshInterval } from "../hooks/useRefreshInterval";
 
 interface Props {
   setActionsQueue: Dispatch<React.SetStateAction<QueueItem[]>>;
+  setNbActionsLeft: Dispatch<React.SetStateAction<number>>;
 }
 
-export function ActionsAvailable({ setActionsQueue }: Props) {
+export function ActionsAvailable({ setActionsQueue, setNbActionsLeft }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const actions = useUpToDateUserActions(setActionsQueue, setId);
+  const actions = useUpToDateUserActions(
+    setActionsQueue,
+    setId,
+    setNbActionsLeft
+  );
   const hasRefreshedCredits = useQuotaAlert(id);
 
   const refreshInterval = useRefreshInterval();
-  useAddActionToQueue(newAction, setNewAction, setActionsQueue);
+  useAddActionToQueue(newAction, setNewAction, setActionsQueue,
+    setNbActionsLeft);
 
   const hasActions = actions && actions.length > 0;
   if (!hasActions)

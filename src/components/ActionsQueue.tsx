@@ -3,10 +3,11 @@ import { ActionStatus } from "../types/enums";
 import { QueueItem } from "../types/types";
 
 interface Props {
-  actionsQueue?: QueueItem[];
+  actionsQueue: QueueItem[];
+  nbActionsLeft: number;
 }
 
-export function ActionsQueue({ actionsQueue }: Props) {
+export function ActionsQueue({ actionsQueue, nbActionsLeft }: Props) {
   const hasActionsQueue = actionsQueue && actionsQueue.length > 0;
   const [filter, setFilter] = useState(false);
 
@@ -72,7 +73,11 @@ export function ActionsQueue({ actionsQueue }: Props) {
             );
           })}
         <li>
-          <span>Prochaine action ajoutée</span>
+          {nbActionsLeft > 0 ? (
+            <span>Encore {nbActionsLeft} en attente</span>
+          ) : (
+            <span>Prochaine action ajoutée</span>
+          )}
         </li>
       </ul>
     </section>

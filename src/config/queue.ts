@@ -1,0 +1,2 @@
+export const MAX_PENDING_ACTION_LIMIT = 2;
+export const MAX_EXECUTED_ACTION_LIMIT = 2;

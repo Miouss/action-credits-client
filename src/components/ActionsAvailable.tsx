@@ -2,7 +2,7 @@ import { Dispatch, useState } from "react";
 import { Action, QueueItem } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
-  useUpToDateUserActions,
+  useUpToDateActionsAndQueue,
   useAddActionToQueue,
   useQuotaAlert,
 } from "../hooks";
@@ -17,7 +17,7 @@ export function ActionsAvailable({ setActionsQueue, setNbActionsLeft }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const actions = useUpToDateUserActions(
+  const actions = useUpToDateActionsAndQueue(
     setActionsQueue,
     setId,
     setNbActionsLeft

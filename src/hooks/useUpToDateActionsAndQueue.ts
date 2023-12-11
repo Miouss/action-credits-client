@@ -3,7 +3,7 @@ import { Action, Actions, QueueFiltered, QueueItem } from "../types/types";
 import { RequestFactory } from "../utils/requests";
 import { UPDATED_USER_ACTIONS_INTERVAL } from "../config/misc";
 
-export function useUpToDateUserActions(
+export function useUpToDateActionsAndQueue(
   setActionsQueue: Dispatch<SetStateAction<QueueItem[]>>,
   setId: Dispatch<SetStateAction<string>>,
   setNbActionsLeft: Dispatch<SetStateAction<number>>
@@ -11,7 +11,7 @@ export function useUpToDateUserActions(
   const [actions, setActions] = useState<Action[]>();
 
   useEffect(() => {
-    const getUserActions = async () => {
+    const getActionsAndQueue = async () => {
       try {
         const res = await Promise.all([
           RequestFactory().actions.get(),
@@ -28,14 +28,14 @@ export function useUpToDateUserActions(
         setNbActionsLeft(queue.nbActionsLeft);
         setActionsQueue(queue.items);
         setTimeout(() => {
-          getUserActions();
+          getActionsAndQueue();
         }, UPDATED_USER_ACTIONS_INTERVAL);
       } catch (err) {
         alert(err);
       }
     };
 
-    getUserActions();
+    getActionsAndQueue();
   }, []);
 
   return actions;

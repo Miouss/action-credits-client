@@ -15,7 +15,7 @@ export function useAddActionToQueue(
       try {
         const response = await RequestFactory().userActions.queue.add(newAction);
         const userActions: UserActions = await response.json();
-        setActionsQueue(userActions.queue.items);
+        setActionsQueue(userActions.queue.items.flat());
       } catch (err) {
         alert(err);
       } finally {

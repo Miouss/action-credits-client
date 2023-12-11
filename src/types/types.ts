@@ -11,7 +11,7 @@ export interface QueueItem {
 }
 
 export interface Queue {
-  items: QueueItem[];
+  items: QueueItem[][];
   nextActionIndex: number;
 }
 

@@ -16,7 +16,7 @@ export function useUpToDateUserActions(
         const userActions: UserActions = await res.json();
 
         setActions(userActions.actions);
-        setActionsQueue(userActions.queue.items);
+        setActionsQueue(userActions.queue.items.flat());
         setId(userActions.id);
         setTimeout(() => {
           getUserActions();

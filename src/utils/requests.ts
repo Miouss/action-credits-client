@@ -22,7 +22,7 @@ export function RequestFactory() {
 
 async function getUserActions() {
   return await requestServer(API_USER_ACTIONS, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },

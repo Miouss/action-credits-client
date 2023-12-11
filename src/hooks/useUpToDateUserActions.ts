@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, QueueItem, UserActionsResponse } from "../types/types";
+import { Action, Actions, QueueFiltered, QueueItem } from "../types/types";
 import { RequestFactory } from "../utils/requests";
 import { UPDATED_USER_ACTIONS_INTERVAL } from "../config/misc";
 
@@ -13,13 +13,20 @@ export function useUpToDateUserActions(
   useEffect(() => {
     const getUserActions = async () => {
       try {
-        const res = await RequestFactory().userActions.get();
-        const {userActions, nbActionsLeft}: UserActionsResponse = await res.json();
+        const res = await Promise.all([
+          RequestFactory().actions.get(),
+          RequestFactory().queue.get(),
+        ]);
 
-        setNbActionsLeft(nbActionsLeft);
-        setActions(userActions.actions);
-        setActionsQueue(userActions.queue.items);
-        setId(userActions.id);
+        const [actions, queue] = (await Promise.all([
+          res[0].json(),
+          res[1].json(),
+        ])) as [Actions, QueueFiltered];
+
+        setActions(actions.items);
+        setId(actions.id);
+        setNbActionsLeft(queue.nbActionsLeft);
+        setActionsQueue(queue.items);
         setTimeout(() => {
           getUserActions();
         }, UPDATED_USER_ACTIONS_INTERVAL);

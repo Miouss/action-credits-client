@@ -1,8 +1,7 @@
 import { ActionName, ActionStatus } from "./enums";
-
-export interface Action {
-  name: ActionName;
-  credits: number;
+export interface Queue {
+  items: QueueItem[];
+  nextActionIndex: number;
 }
 
 export interface QueueItem {
@@ -10,20 +9,19 @@ export interface QueueItem {
   status: ActionStatus;
 }
 
-export interface Queue {
+export interface QueueFiltered {
   items: QueueItem[];
-  nextActionIndex: number;
-}
-
-export interface UserActions {
-  actions: Action[];
-  queue: Queue;
-  id: string;
-}
-
-export interface UserActionsResponse {
-  userActions: UserActions;
   nbActionsLeft: number;
+}
+
+export interface Action {
+  name: ActionName;
+  credits: number;
+}
+
+export interface Actions {
+  items: Action[];
+  id: string;
 }
 
 export interface ExecutionInterval {

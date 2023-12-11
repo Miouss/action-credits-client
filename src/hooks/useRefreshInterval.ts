@@ -9,7 +9,7 @@ export function useRefreshInterval() {
 
   useEffect(() => {
     async function fetchRefreshInterval() {
-      const response = await RequestFactory().userActions.refreshInterval.get();
+      const response = await RequestFactory().config.get();
       const data = await response.json();
 
       setRefreshInterval(data);

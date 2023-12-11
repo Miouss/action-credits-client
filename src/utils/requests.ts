@@ -1,27 +1,23 @@
-import {
-  API_USER_ACTIONS,
-  API_USER_ACTIONS_QUEUE,
-  API_USER_ACTIONS_REFRESH_INTERVAL,
-} from "../config";
+import { API_ACTIONS, API_QUEUE, API_CONFIG } from "../config";
 import { ActionName } from "../types/enums";
 
 export function RequestFactory() {
   return {
-    userActions: {
-      get: async () => await getUserActions(),
-      queue: {
-        add: async (actionName: ActionName) =>
-          await addActionToQueue(actionName),
-      },
-      refreshInterval: {
-        get: async () => await getRefreshInterval(),
-      },
+    actions: {
+      get: async () => await getActions(),
+    },
+    queue: {
+      add: async (actionName: ActionName) => await addActionToQueue(actionName),
+      get: async () => await getQueue(),
+    },
+    config: {
+      get: async () => await getConfig(),
     },
   };
 }
 
-async function getUserActions() {
-  return await requestServer(API_USER_ACTIONS, {
+async function getQueue() {
+  return await requestServer(API_QUEUE, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -29,8 +25,17 @@ async function getUserActions() {
   });
 }
 
-async function getRefreshInterval() {
-  return await requestServer(API_USER_ACTIONS_REFRESH_INTERVAL, {
+async function getActions() {
+  return await requestServer(API_ACTIONS, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+async function getConfig() {
+  return await requestServer(API_CONFIG, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +44,7 @@ async function getRefreshInterval() {
 }
 
 async function addActionToQueue(actionName: ActionName) {
-  return await requestServer(API_USER_ACTIONS_QUEUE, {
+  return await requestServer(API_QUEUE, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

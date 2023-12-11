@@ -1,2 +1,2 @@
-export const QUOTA_ALERT_DELAY = 5000; // ms
-export const UPDATED_USER_ACTIONS_INTERVAL = 10000; // ms
+export const QUOTA_REFRESH_ALERT_FADE_OUT_DELAY = 5000; // ms
+export const UPDATED_ACTIONS_AND_QUEUE_INTERVAL = 15000; // ms

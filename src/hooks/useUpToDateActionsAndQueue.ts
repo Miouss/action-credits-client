@@ -1,12 +1,13 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Action, Actions, QueueFiltered, QueueItem } from "../types/types";
 import { RequestFactory } from "../utils/requests";
-import { UPDATED_USER_ACTIONS_INTERVAL } from "../config/misc";
+import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config/misc";
 
 export function useUpToDateActionsAndQueue(
   setActionsQueue: Dispatch<SetStateAction<QueueItem[]>>,
   setId: Dispatch<SetStateAction<string>>,
-  setNbActionsLeft: Dispatch<SetStateAction<number>>
+  setNbActionsLeft: Dispatch<SetStateAction<number>>,
+  setNbActionsDone: Dispatch<SetStateAction<number>>
 ) {
   const [actions, setActions] = useState<Action[]>();
 
@@ -27,9 +28,10 @@ export function useUpToDateActionsAndQueue(
         setId(actions.id);
         setNbActionsLeft(queue.nbActionsLeft);
         setActionsQueue(queue.items);
+        setNbActionsDone(queue.nbActionsDone);
         setTimeout(() => {
           getActionsAndQueue();
-        }, UPDATED_USER_ACTIONS_INTERVAL);
+        }, UPDATED_ACTIONS_AND_QUEUE_INTERVAL);
       } catch (err) {
         alert(err);
       }

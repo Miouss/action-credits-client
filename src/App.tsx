@@ -5,6 +5,7 @@ import { QueueItem } from "./types/types";
 function App() {
   const [actionsQueue, setActionsQueue] = useState<QueueItem[]>([]);
   const [nbActionsLeft, setNbActionsLeft] = useState<number>(0);
+  const [nbActionsDone, setNbActionsDone] = useState<number>(0);
 
   return (
     <>
@@ -13,10 +14,12 @@ function App() {
         <ActionsAvailable
           setActionsQueue={setActionsQueue}
           setNbActionsLeft={setNbActionsLeft}
+          setNbActionsDone={setNbActionsDone}
         />
         <ActionsQueue
           actionsQueue={actionsQueue}
           nbActionsLeft={nbActionsLeft}
+          nbActionsDone={nbActionsDone}
         />
       </main>
     </>

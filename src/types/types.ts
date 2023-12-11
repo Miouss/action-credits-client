@@ -12,6 +12,7 @@ export interface QueueItem {
 export interface QueueFiltered {
   items: QueueItem[];
   nbActionsLeft: number;
+  nbActionsDone: number;
 }
 
 export interface Action {

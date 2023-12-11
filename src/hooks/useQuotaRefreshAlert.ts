@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { QUOTA_ALERT_DELAY } from "../config/misc";
+import { QUOTA_REFRESH_ALERT_FADE_OUT_DELAY } from "../config/misc";
 
-export function useQuotaAlert(id: string) {
+export function useQuotaRefreshAlert(id: string) {
   const [hasRefreshedCredits, setHasRefreshedCredits] = useState<boolean>();
 
   useEffect(() => {
@@ -9,7 +9,7 @@ export function useQuotaAlert(id: string) {
     setHasRefreshedCredits(true);
     setTimeout(() => {
       setHasRefreshedCredits(false);
-    }, QUOTA_ALERT_DELAY);
+    }, QUOTA_REFRESH_ALERT_FADE_OUT_DELAY);
   }, [id]);
 
   return hasRefreshedCredits;

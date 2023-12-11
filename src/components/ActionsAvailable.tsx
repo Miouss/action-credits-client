@@ -4,29 +4,41 @@ import { ActionName } from "../types/enums";
 import {
   useUpToDateActionsAndQueue,
   useAddActionToQueue,
-  useQuotaAlert,
+  useQuotaRefreshAlert,
 } from "../hooks";
 import { useRefreshInterval } from "../hooks/useRefreshInterval";
+import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config";
 
 interface Props {
   setActionsQueue: Dispatch<React.SetStateAction<QueueItem[]>>;
   setNbActionsLeft: Dispatch<React.SetStateAction<number>>;
+  setNbActionsDone: Dispatch<React.SetStateAction<number>>;
 }
 
-export function ActionsAvailable({ setActionsQueue, setNbActionsLeft }: Props) {
+export function ActionsAvailable({
+  setActionsQueue,
+  setNbActionsLeft,
+  setNbActionsDone,
+}: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
   const actions = useUpToDateActionsAndQueue(
     setActionsQueue,
     setId,
-    setNbActionsLeft
+    setNbActionsLeft,
+    setNbActionsDone
   );
-  const hasRefreshedCredits = useQuotaAlert(id);
+  const hasRefreshedCredits = useQuotaRefreshAlert(id);
 
   const refreshInterval = useRefreshInterval();
-  useAddActionToQueue(newAction, setNewAction, setActionsQueue,
-    setNbActionsLeft);
+  useAddActionToQueue(
+    newAction,
+    setNewAction,
+    setActionsQueue,
+    setNbActionsLeft,
+    setNbActionsDone
+  );
 
   const hasActions = actions && actions.length > 0;
   if (!hasActions)
@@ -57,18 +69,28 @@ export function ActionsAvailable({ setActionsQueue, setNbActionsLeft }: Props) {
           </tbody>
         </table>
         <div>
-          {hasRefreshedCredits && <p>Le quota des crédits a été actualisé</p>}
+          <p>
+            {" "}
+            Une requête pour récupérer les actions avec les crédits mis à jour
+            et la queue est effectué toutes les{" "}
+            {UPDATED_ACTIONS_AND_QUEUE_INTERVAL / 1000}s
+          </p>
           {refreshInterval.execution && (
             <p>
-              Une action sera exécutée toutes les{" "}
+              Une action est exécutée toutes les{" "}
               {refreshInterval.execution / 1000}s
             </p>
           )}
           {refreshInterval.credits && (
             <p>
-              Quota des crédits actualisés toutes les{" "}
+              Le quota des crédits est actualisé toutes les{" "}
               {refreshInterval.credits / 1000}s, si au moins 1 crédit a été
               utilisé
+            </p>
+          )}
+          {hasRefreshedCredits && (
+            <p className="credits-refresh">
+              Le quota des crédits a été actualisé
             </p>
           )}
         </div>

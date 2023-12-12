@@ -1,21 +1,19 @@
-import { ActionStatus, ActionName } from "../types/enums";
+import { ActionName } from "../types/enums";
 import { Action } from "../types/types";
 
 interface Props {
   queueItems: ActionName[];
-  queueItemsHistory: number;
-  queueType: ActionStatus;
   actions: Action[];
+  queueItemsHistory?: number;
 }
 
 export function DisplayQueue({
   queueItems,
-  queueItemsHistory,
-  queueType,
   actions,
+  queueItemsHistory,
 }: Props) {
   const hasActionsQueue = queueItems && queueItems.length > 0;
-  const isExecutedQueue = queueType === ActionStatus.COMPLETED;
+  const isExecutedQueue = Boolean(queueItemsHistory);
 
   const queueState = isExecutedQueue ? "exécuté" : "en attente";
   const statusClass = isExecutedQueue ? "completed" : "pending";
@@ -31,10 +29,6 @@ export function DisplayQueue({
       </section>
     );
 
-  const History = () => (
-    <HistoryType queueItemsHistory={queueItemsHistory} queueType={queueType} />
-  );
-
   return (
     <section>
       <h3
@@ -47,7 +41,7 @@ export function DisplayQueue({
       </h3>
 
       <ul className="queue">
-        {isExecutedQueue && <History />}
+        {isExecutedQueue && <History queueItemsHistory={queueItemsHistory!} />}
         {hasActionsQueue &&
           queueItems.map((name, index) => (
             <li key={index}>
@@ -62,7 +56,7 @@ export function DisplayQueue({
               >
                 {name}
               </span>
-              {queueItems.length - 1 != index && <ActionSeparator />}
+              {index < queueItems.length - 1 && <ActionSeparator />}
             </li>
           ))}
       </ul>
@@ -70,26 +64,17 @@ export function DisplayQueue({
   );
 }
 
-function HistoryType({
-  queueItemsHistory,
-  queueType,
-}: {
-  queueItemsHistory: number;
-  queueType: ActionStatus;
-}) {
+function History({ queueItemsHistory }: { queueItemsHistory: number }) {
   if (queueItemsHistory === 0) return null;
 
   const s = plural(queueItemsHistory);
-  const isExecutedHistory = queueType === ActionStatus.COMPLETED;
 
   return (
     <li>
-      {!isExecutedHistory && <ActionSeparator />}
       <span className="history">
-        +{queueItemsHistory} action{s}{" "}
-        {queueType === ActionStatus.PENDING ? "en attente" : `exécutée${s}`}
+        +{queueItemsHistory} action{s} exécutée{s}
       </span>
-      {isExecutedHistory && <ActionSeparator />}
+      {<ActionSeparator />}
     </li>
   );
 }

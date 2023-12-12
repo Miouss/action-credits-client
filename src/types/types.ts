@@ -31,5 +31,4 @@ export interface QueueItemsByActionStatus {
 export interface QueueFilteredByActionStatus {
   items: QueueItemsByActionStatus;
   executedItemsHistory: number;
-  pendingItemsHistory: number;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 import {
   Action,
   Actions,
@@ -8,10 +8,10 @@ import { RequestFactory } from "../utils/requests";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config/misc";
 
 export function useUpToDateActionsAndQueue(
+  setActions: Dispatch<SetStateAction<Action[] | undefined>>,
   setQueue: Dispatch<SetStateAction<QueueFilteredByActionStatus | undefined>>,
   setId: Dispatch<SetStateAction<string>>
 ) {
-  const [actions, setActions] = useState<Action[]>();
 
   useEffect(() => {
     const getActionsAndQueue = async () => {
@@ -39,6 +39,4 @@ export function useUpToDateActionsAndQueue(
 
     getActionsAndQueue();
   }, []);
-
-  return actions;
 }

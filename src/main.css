@@ -92,16 +92,20 @@ section {
   }
 }
 
-.pending {
+.unexecutable {
   background-color: rgb(230, 128, 128);
 }
 
-.next {
+.pending {
   background-color: rgb(230, 230, 128);
 }
 
 .completed {
   background-color: rgb(140, 230, 128);
+}
+
+.next-excuted-action {
+  font-style: bold;
 }
 
 .credits-refresh {

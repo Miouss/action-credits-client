@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Action, QueueFilteredByActionStatus } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
@@ -10,14 +10,16 @@ import { useRefreshInterval } from "../hooks/useRefreshInterval";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config";
 
 interface Props {
-  setQueue: Dispatch<React.SetStateAction<QueueFilteredByActionStatus | undefined>>;
+  setQueue: Dispatch<SetStateAction<QueueFilteredByActionStatus | undefined>>;
+  actions: Action[] | undefined;
+  setActions: Dispatch<SetStateAction<Action[] | undefined>>;
 }
 
-export function ActionsAvailable({ setQueue }: Props) {
+export function ActionsAvailable({ setQueue, actions, setActions }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const actions = useUpToDateActionsAndQueue(setQueue, setId);
+  useUpToDateActionsAndQueue(setActions, setQueue, setId);
   const hasRefreshedCredits = useQuotaRefreshAlert(id);
 
   const refreshInterval = useRefreshInterval();

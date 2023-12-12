@@ -1,26 +1,33 @@
 import { ActionStatus, ActionName } from "../types/enums";
+import { Action } from "../types/types";
 
 interface Props {
   queueItems: ActionName[];
   queueItemsHistory: number;
   queueType: ActionStatus;
+  actions: Action[];
 }
 
 export function DisplayQueue({
   queueItems,
   queueItemsHistory,
   queueType,
+  actions,
 }: Props) {
   const hasActionsQueue = queueItems && queueItems.length > 0;
-  const queueState =
-    queueType === ActionStatus.PENDING ? "en attente" : "exécuté";
-  const statusClass =
-    queueType === ActionStatus.PENDING ? "pending" : "completed";
+  const isExecutedQueue = queueType === ActionStatus.COMPLETED;
+
+  const queueState = isExecutedQueue ? "exécuté" : "en attente";
+  const statusClass = isExecutedQueue ? "completed" : "pending";
+
+  const validActions = actions.map(
+    (action) => action.credits > 0 && action.name
+  );
 
   if (!hasActionsQueue)
     return (
       <section>
-        <h3>Aucune Actions {queueState}</h3>
+        <h3>Aucune Action {queueState}</h3>
       </section>
     );
 
@@ -30,25 +37,34 @@ export function DisplayQueue({
 
   return (
     <section>
-        <h3
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Actions {queueState}
-        </h3>
+      <h3
+        style={{
+          textAlign: "center",
+        }}
+      >
+        {isExecutedQueue && "Dernières"} Actions {queueState}
+        {isExecutedQueue && "s"}
+      </h3>
 
       <ul className="queue">
-        {queueType === ActionStatus.COMPLETED && <History />}
+        {isExecutedQueue && <History />}
         {hasActionsQueue &&
           queueItems.map((name, index) => (
             <li key={index}>
-              <span className={statusClass}>{name}</span>
+              <span
+                className={
+                  isExecutedQueue
+                    ? statusClass
+                    : validActions.includes(name)
+                    ? "pending"
+                    : "unexecutable"
+                }
+              >
+                {name}
+              </span>
               {queueItems.length - 1 != index && <ActionSeparator />}
             </li>
           ))}
-
-        {queueType === ActionStatus.PENDING && <History />}
       </ul>
     </section>
   );
@@ -60,9 +76,9 @@ function HistoryType({
 }: {
   queueItemsHistory: number;
   queueType: ActionStatus;
-  }) {
+}) {
   if (queueItemsHistory === 0) return null;
-  
+
   const s = plural(queueItemsHistory);
   const isExecutedHistory = queueType === ActionStatus.COMPLETED;
 

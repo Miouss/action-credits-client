@@ -60,7 +60,9 @@ function HistoryType({
 }: {
   queueItemsHistory: number;
   queueType: ActionStatus;
-}) {
+  }) {
+  if (queueItemsHistory === 0) return null;
+  
   const s = plural(queueItemsHistory);
   const isExecutedHistory = queueType === ActionStatus.COMPLETED;
 

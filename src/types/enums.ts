@@ -4,16 +4,10 @@ export enum ActionName {
   VISIT = "Visit",
 }
 
-export enum User {
-  WAALAXY = "Waalaxy",
-  SAMIR = "Samir",
-  FABIEN = "Fabien",
-}
-
 export enum API_ENDPOINTS {
-  AUTH = "/auth",
   ACTIONS = "/actions",
-  ACTIONS_QUEUE = "/actions/queue",
+  CONFIG = "/config",
+  QUEUE = "/queue",
 }
 
 export enum ActionStatus{

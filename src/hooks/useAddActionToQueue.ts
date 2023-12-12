@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { RequestFactory } from "../utils/requests";
 import { ActionName } from "../types/enums";
-import { QueueFiltered, QueueItem } from "../types/types";
+import { QueueFilteredByActionStatus } from "../types/types";
 
 export function useAddActionToQueue(
   newAction: ActionName | undefined,
   setNewAction: Dispatch<SetStateAction<ActionName | undefined>>,
-  setActionsQueue: Dispatch<SetStateAction<QueueItem[]>>,
-  setNbActionsLeft: Dispatch<SetStateAction<number>>,
-  setNbActionsDone: Dispatch<SetStateAction<number>>
+  setActionsQueue: Dispatch<
+    SetStateAction<QueueFilteredByActionStatus | undefined>
+  >
 ) {
   useEffect(() => {
     if (!newAction) return;
@@ -16,10 +16,8 @@ export function useAddActionToQueue(
     const handleAddActionToQueue = async () => {
       try {
         const response = await RequestFactory().queue.add(newAction);
-        const queue: QueueFiltered = await response.json();
-        setNbActionsLeft(queue.nbActionsLeft);
-        setActionsQueue(queue.items);
-        setNbActionsDone(queue.nbActionsDone);
+        const queue: QueueFilteredByActionStatus = await response.json();
+        setActionsQueue(queue);
       } catch (err) {
         alert(err);
       } finally {

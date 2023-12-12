@@ -1,5 +1,5 @@
 import { Dispatch, useState } from "react";
-import { Action, QueueItem } from "../types/types";
+import { Action, QueueFilteredByActionStatus } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
   useUpToDateActionsAndQueue,
@@ -10,35 +10,18 @@ import { useRefreshInterval } from "../hooks/useRefreshInterval";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config";
 
 interface Props {
-  setActionsQueue: Dispatch<React.SetStateAction<QueueItem[]>>;
-  setNbActionsLeft: Dispatch<React.SetStateAction<number>>;
-  setNbActionsDone: Dispatch<React.SetStateAction<number>>;
+  setQueue: Dispatch<React.SetStateAction<QueueFilteredByActionStatus | undefined>>;
 }
 
-export function ActionsAvailable({
-  setActionsQueue,
-  setNbActionsLeft,
-  setNbActionsDone,
-}: Props) {
+export function ActionsAvailable({ setQueue }: Props) {
   const [newAction, setNewAction] = useState<ActionName>();
   const [id, setId] = useState<string>("");
 
-  const actions = useUpToDateActionsAndQueue(
-    setActionsQueue,
-    setId,
-    setNbActionsLeft,
-    setNbActionsDone
-  );
+  const actions = useUpToDateActionsAndQueue(setQueue, setId);
   const hasRefreshedCredits = useQuotaRefreshAlert(id);
 
   const refreshInterval = useRefreshInterval();
-  useAddActionToQueue(
-    newAction,
-    setNewAction,
-    setActionsQueue,
-    setNbActionsLeft,
-    setNbActionsDone
-  );
+  useAddActionToQueue(newAction, setNewAction, setQueue);
 
   const hasActions = actions && actions.length > 0;
   if (!hasActions)

@@ -1,13 +1,15 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Action, Actions, QueueFiltered, QueueItem } from "../types/types";
+import {
+  Action,
+  Actions,
+  QueueFilteredByActionStatus,
+} from "../types/types";
 import { RequestFactory } from "../utils/requests";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config/misc";
 
 export function useUpToDateActionsAndQueue(
-  setActionsQueue: Dispatch<SetStateAction<QueueItem[]>>,
-  setId: Dispatch<SetStateAction<string>>,
-  setNbActionsLeft: Dispatch<SetStateAction<number>>,
-  setNbActionsDone: Dispatch<SetStateAction<number>>
+  setQueue: Dispatch<SetStateAction<QueueFilteredByActionStatus | undefined>>,
+  setId: Dispatch<SetStateAction<string>>
 ) {
   const [actions, setActions] = useState<Action[]>();
 
@@ -22,13 +24,11 @@ export function useUpToDateActionsAndQueue(
         const [actions, queue] = (await Promise.all([
           res[0].json(),
           res[1].json(),
-        ])) as [Actions, QueueFiltered];
+        ])) as [Actions, QueueFilteredByActionStatus];
 
         setActions(actions.items);
         setId(actions.id);
-        setNbActionsLeft(queue.nbActionsLeft);
-        setActionsQueue(queue.items);
-        setNbActionsDone(queue.nbActionsDone);
+        setQueue(queue);
         setTimeout(() => {
           getActionsAndQueue();
         }, UPDATED_ACTIONS_AND_QUEUE_INTERVAL);

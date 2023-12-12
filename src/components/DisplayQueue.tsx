@@ -30,21 +30,16 @@ export function DisplayQueue({
 
   return (
     <section>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "1rem",
-        }}
-      >
-        <h3>Actions {queueState}</h3>
-      </div>
+        <h3
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Actions {queueState}
+        </h3>
 
       <ul className="queue">
-        {queueType === ActionStatus.COMPLETED && (
-            <History />
-        )}
+        {queueType === ActionStatus.COMPLETED && <History />}
         {hasActionsQueue &&
           queueItems.map((name, index) => (
             <li key={index}>
@@ -53,9 +48,7 @@ export function DisplayQueue({
             </li>
           ))}
 
-        {queueType === ActionStatus.PENDING && (
-            <History />
-        )}
+        {queueType === ActionStatus.PENDING && <History />}
       </ul>
     </section>
   );

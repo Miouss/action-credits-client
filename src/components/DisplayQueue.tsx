@@ -13,7 +13,7 @@ export function DisplayQueue({
   queueItemsHistory,
 }: Props) {
   const hasActionsQueue = queueItems && queueItems.length > 0;
-  const isExecutedQueue = Boolean(queueItemsHistory);
+  const isExecutedQueue = queueItemsHistory !== undefined;
 
   const queueState = isExecutedQueue ? "exécuté" : "en attente";
   const statusClass = isExecutedQueue ? "completed" : "pending";
@@ -41,9 +41,8 @@ export function DisplayQueue({
       </h3>
 
       <ul className="queue">
-        {isExecutedQueue && <History queueItemsHistory={queueItemsHistory!} />}
         {hasActionsQueue &&
-          queueItems.map((name, index) => (
+          (isExecutedQueue ? queueItems.reverse() : queueItems).map((name, index) => (
             <li key={index}>
               <span
                 className={
@@ -56,9 +55,10 @@ export function DisplayQueue({
               >
                 {name}
               </span>
-              {index < queueItems.length - 1 && <ActionSeparator />}
+              {index < queueItems.length - 1 && <ActionSeparator flipped={isExecutedQueue} />}
             </li>
           ))}
+        {isExecutedQueue && <History queueItemsHistory={queueItemsHistory!} />}
       </ul>
     </section>
   );
@@ -71,17 +71,19 @@ function History({ queueItemsHistory }: { queueItemsHistory: number }) {
 
   return (
     <li>
+      {<ActionSeparator flipped={true} />}
+
       <span className="history">
         +{queueItemsHistory} action{s} exécutée{s}
       </span>
-      {<ActionSeparator />}
     </li>
   );
 }
 
-function ActionSeparator() {
+function ActionSeparator({flipped} : {flipped?: boolean}) {
   return (
     <svg
+      className={flipped ? "flip" : ""}
       clipRule="evenodd"
       fillRule="evenodd"
       strokeLinejoin="round"

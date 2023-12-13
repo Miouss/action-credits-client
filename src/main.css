@@ -19,6 +19,11 @@ section {
   margin: 10px 50px;
 }
 
+.flip {
+  transform: scale(-1);
+  --webkit-transform: scale(-1);
+}
+
 .actions-table {
   margin: auto;
   border-spacing: 0px;

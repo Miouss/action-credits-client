@@ -6,6 +6,9 @@ function App() {
   const [queue, setQueue] = useState<QueueFilteredByActionStatus>();
   const [actions, setActions] = useState<Action[]>();
 
+  const needDisplayPendingQueue = queue?.items.pending !== undefined;
+  const needDisplayExecutedQueue = queue?.items.executed !== undefined;
+
   return (
     <>
       <header>Gestionnaire de tâches</header>
@@ -24,15 +27,19 @@ function App() {
             }}
           >
             <>
-              <DisplayQueue
-                queueItems={queue.items.pending}
-                actions={actions}
-              />
-              <DisplayQueue
-                queueItems={queue.items.executed}
-                actions={actions}
-                queueItemsHistory={queue.executedItemsHistory}
-              />
+              {needDisplayPendingQueue && (
+                <DisplayQueue
+                  queueItems={queue.items.pending}
+                  actions={actions}
+                />
+              )}
+              {needDisplayExecutedQueue && (
+                <DisplayQueue
+                  queueItems={queue.items.executed}
+                  actions={actions}
+                  queueItemsHistory={queue.executedItemsHistory}
+                />
+              )}
             </>
           </div>
         )}

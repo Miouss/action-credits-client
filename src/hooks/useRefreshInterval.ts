@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RequestFactory } from "../utils/requests";
+import { RequestFactory } from "../api/requests";
 
 export function useRefreshInterval() {
   const [refreshInterval, setRefreshInterval] = useState({

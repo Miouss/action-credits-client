@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { RequestFactory } from "../utils/requests";
+import { RequestFactory } from "../api/requests";
 import { ActionName } from "../types/enums";
 import { QueueByStatusWithExecutedHistory } from "../types/types";
 

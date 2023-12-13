@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { Action, QueueFilteredByActionStatus } from "../types/types";
+import { Action, QueueByStatusWithExecutedHistory } from "../types/types";
 import { ActionName } from "../types/enums";
 import {
   useUpToDateActionsAndQueue,
@@ -10,7 +10,9 @@ import { useRefreshInterval } from "../hooks/useRefreshInterval";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config";
 
 interface Props {
-  setQueue: Dispatch<SetStateAction<QueueFilteredByActionStatus | undefined>>;
+  setQueue: Dispatch<
+    SetStateAction<QueueByStatusWithExecutedHistory | undefined>
+  >;
   actions: Action[] | undefined;
   setActions: Dispatch<SetStateAction<Action[] | undefined>>;
 }

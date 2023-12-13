@@ -1,4 +1,4 @@
-import { API_ACTIONS, API_QUEUE, API_CONFIG } from "../config";
+import { API_ACTIONS, API_QUEUE, API_CONFIG } from "./config";
 import { ActionName } from "../types/enums";
 
 export function RequestFactory() {

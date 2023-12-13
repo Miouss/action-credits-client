@@ -4,8 +4,8 @@ import {
   Actions,
   QueueByStatusWithExecutedHistory,
 } from "../types/types";
-import { RequestFactory } from "../utils/requests";
-import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config/misc";
+import { RequestFactory } from "../api/requests";
+import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config";
 
 export function useUpToDateActionsAndQueue(
   setActions: Dispatch<SetStateAction<Action[] | undefined>>,

@@ -1,4 +1,6 @@
-import { API, API_ENDPOINTS, ActionStatus } from "./enums";
+import { API_ENDPOINTS, ActionStatus } from "./enums";
+
+const API = "http://localhost:3001/api";
 
 const MAX_EXECUTED_ACTION_DISPLAYED = 3;
 

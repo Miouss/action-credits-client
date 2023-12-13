@@ -1,6 +1,6 @@
 import { API, API_ENDPOINTS, ActionStatus } from "./enums";
 
-export const MAX_EXECUTED_ACTION_DISPLAYED = 3;
+const MAX_EXECUTED_ACTION_DISPLAYED = 3;
 
 const API_QUEUE_QUERIES = `?statuses=${ActionStatus.PENDING},${ActionStatus.EXECUTED}&count=${MAX_EXECUTED_ACTION_DISPLAYED}`;
 

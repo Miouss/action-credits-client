@@ -2,17 +2,18 @@ import { useEffect, Dispatch, SetStateAction } from "react";
 import {
   Action,
   Actions,
-  QueueFilteredByActionStatus,
+  QueueByStatusWithExecutedHistory,
 } from "../types/types";
 import { RequestFactory } from "../utils/requests";
 import { UPDATED_ACTIONS_AND_QUEUE_INTERVAL } from "../config/misc";
 
 export function useUpToDateActionsAndQueue(
   setActions: Dispatch<SetStateAction<Action[] | undefined>>,
-  setQueue: Dispatch<SetStateAction<QueueFilteredByActionStatus | undefined>>,
+  setQueue: Dispatch<
+    SetStateAction<QueueByStatusWithExecutedHistory | undefined>
+  >,
   setId: Dispatch<SetStateAction<string>>
 ) {
-
   useEffect(() => {
     const getActionsAndQueue = async () => {
       try {
@@ -24,7 +25,7 @@ export function useUpToDateActionsAndQueue(
         const [actions, queue] = (await Promise.all([
           res[0].json(),
           res[1].json(),
-        ])) as [Actions, QueueFilteredByActionStatus];
+        ])) as [Actions, QueueByStatusWithExecutedHistory];
 
         setActions(actions.items);
         setId(actions.id);

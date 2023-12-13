@@ -1,6 +1,6 @@
 import { ActionName, ActionStatus } from "./enums";
 
-export type Status = "pending" | "completed";
+export type Status = "pending" | "executed";
 export interface Queue {
   items: QueueItem[];
   nextActionIndex: number;
@@ -19,16 +19,12 @@ export interface Actions {
   items: Action[];
   id: string;
 }
-
-export interface ExecutionInterval {
-  executionInvertal: number;
-}
-export interface QueueItemsByActionStatus {
+export interface Queue {
   executed: ActionName[];
   pending: ActionName[];
 }
 
-export interface QueueFilteredByActionStatus {
-  items: QueueItemsByActionStatus;
+export interface QueueByStatusWithExecutedHistory {
+  items: Queue;
   executedItemsHistory: number;
 }

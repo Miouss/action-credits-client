@@ -12,5 +12,5 @@ export enum API_ENDPOINTS {
 
 export enum ActionStatus{
   PENDING = "pending",
-  COMPLETED = "completed"
+  EXECUTED = "executed"
 }

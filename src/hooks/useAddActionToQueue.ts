@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { RequestFactory } from "../utils/requests";
 import { ActionName } from "../types/enums";
-import { QueueFilteredByActionStatus } from "../types/types";
+import { QueueByStatusWithExecutedHistory } from "../types/types";
 
 export function useAddActionToQueue(
   newAction: ActionName | undefined,
   setNewAction: Dispatch<SetStateAction<ActionName | undefined>>,
   setActionsQueue: Dispatch<
-    SetStateAction<QueueFilteredByActionStatus | undefined>
+    SetStateAction<QueueByStatusWithExecutedHistory | undefined>
   >
 ) {
   useEffect(() => {
@@ -16,7 +16,7 @@ export function useAddActionToQueue(
     const handleAddActionToQueue = async () => {
       try {
         const response = await RequestFactory().queue.add(newAction);
-        const queue: QueueFilteredByActionStatus = await response.json();
+        const queue: QueueByStatusWithExecutedHistory = await response.json();
         setActionsQueue(queue);
       } catch (err) {
         alert(err);

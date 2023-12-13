@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { ActionsAvailable, DisplayQueue } from "./components";
-import { Action, QueueFilteredByActionStatus } from "./types/types";
+import { Action, QueueByStatusWithExecutedHistory } from "./types/types";
 
 function App() {
-  const [queue, setQueue] = useState<QueueFilteredByActionStatus>();
+  const [queue, setQueue] = useState<QueueByStatusWithExecutedHistory>();
   const [actions, setActions] = useState<Action[]>();
 
   const needDisplayPendingQueue = queue?.items.pending !== undefined;

@@ -63,8 +63,10 @@ section {
   gap: 16px;
 }
 
-.queue-title {
-  text-align: center;
+.queues {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .queue {
@@ -79,6 +81,7 @@ section {
     display: flex;
     flex-direction: column;
     padding: 0;
+
     svg {
       height: 35px;
     }

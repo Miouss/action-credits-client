@@ -19,13 +19,7 @@ function App() {
           setActions={setActions}
         />
         {queue && actions && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
+          <div className="queues">
             <>
               {needDisplayPendingQueue && (
                 <DisplayQueue

@@ -60,19 +60,19 @@ export function ActionsAvailable({ setQueue, actions, setActions }: Props) {
             {" "}
             Une requête pour récupérer les actions avec les crédits mis à jour
             et la queue est effectué toutes les{" "}
-            {UPDATED_ACTIONS_AND_QUEUE_INTERVAL / 1000}s
+            {convertMsToString(UPDATED_ACTIONS_AND_QUEUE_INTERVAL)}
           </p>
           {refreshInterval.execution && (
             <p>
               Une action est exécutée toutes les{" "}
-              {refreshInterval.execution / 1000}s
+              {convertMsToString(refreshInterval.execution)}
             </p>
           )}
           {refreshInterval.credits && (
             <p>
               Le quota des crédits est actualisé toutes les{" "}
-              {refreshInterval.credits / 1000}s, si au moins 1 crédit a été
-              utilisé
+              {convertMsToString(refreshInterval.credits)}, si au moins 1 crédit
+              a été utilisé
             </p>
           )}
           {hasRefreshedCredits && (
@@ -115,4 +115,28 @@ function ActionItem({
       </td>
     </tr>
   );
+}
+
+function convertMsToString(ms: number) {
+  const seconds = Math.floor((ms / 1000) % 60);
+  const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+  let formattedString = "";
+
+  if (days > 0) {
+    formattedString += `${days}j`;
+  }
+  if (hours > 0) {
+    formattedString += `${hours}h`;
+  }
+  if (minutes > 0) {
+    formattedString += `${minutes}m`;
+  }
+  if (seconds > 0) {
+    formattedString += `${seconds}s`;
+  }
+
+  return formattedString !== "" ? formattedString : "0s";
 }
